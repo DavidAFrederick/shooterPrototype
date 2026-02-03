@@ -6,11 +6,14 @@ from ledsubsystem import LEDSubsystem
 
 from flywheelCommand import ControlFlywheel
 from indexerCommand import ControlIndexer
+from intakeCommand import ControlIntake
+
 from timedIndexer import TimedIndexer
 from fireinthehole import FireInTheHole
 from commands2.button import CommandXboxController
 from update_speed_variable import Update_Speed_Variable
 from enable_Flywheel import Enable_flywheel
+from enable_Intake import Enable_Intake
 from phoenix6.signal_logger import SignalLogger
 
 class MyRobot(TimedCommandRobot):
@@ -20,10 +23,12 @@ class MyRobot(TimedCommandRobot):
        should be used for any initialization code.
        """
        self._driver_controller = CommandXboxController(0)
+       self._partner_controller = CommandXboxController(1)
        self._shooter: Shooter = Shooter()
        self._shooter.setDefaultCommand(ControlFlywheel(self._shooter,  0))
 
        self._intake: Intake = Intake()
+       self._intake.setDefaultCommand(ControlIntake(self._intake, 0))
        self._led:   LEDSubsystem = LEDSubsystem()
        
 
@@ -38,15 +43,19 @@ class MyRobot(TimedCommandRobot):
 
        self._driver_controller.a().onTrue(Enable_flywheel(self._shooter, True))
        self._driver_controller.b().onTrue(Enable_flywheel(self._shooter, False))
+       self._driver_controller.povUp().onTrue(Update_Speed_Variable(self._shooter, 0.05))   # Increase the motor speed by 0.1
+       self._driver_controller.povDown().onTrue(Update_Speed_Variable(self._shooter, -0.05))
 
        self._driver_controller.x().whileTrue(ControlIndexer(self._shooter, 0.2))
        self._driver_controller.y().whileTrue(ControlIndexer(self._shooter, 0) )
        self._driver_controller.rightTrigger().onTrue(TimedIndexer(self._shooter, 0.2, 1)       )
        self._driver_controller.leftTrigger().onTrue(FireInTheHole(self._shooter, 0.2, 5))
 
+       self._partner_controller.a().onTrue(Enable_Intake(self._intake, True))
+       self._partner_controller.b().onTrue(Enable_Intake(self._intake, False))
+       self._partner_controller.povUp().onTrue(Update_Speed_Variable(self._intake, 0.05))   # Increase the motor speed by 0.1
+       self._partner_controller.povDown().onTrue(Update_Speed_Variable(self._intake, -0.05))
 
-       self._driver_controller.povUp().onTrue(Update_Speed_Variable(self._shooter, 0.05))   # Increase the motor speed by 0.1
-       self._driver_controller.povDown().onTrue(Update_Speed_Variable(self._shooter, -0.05))
 
        wpilib.DriverStation.silenceJoystickConnectionWarning(True)
 
