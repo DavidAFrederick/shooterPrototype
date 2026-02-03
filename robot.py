@@ -1,6 +1,9 @@
 import wpilib
 from commands2 import TimedCommandRobot
 from shooter import Shooter
+from intake import Intake
+from ledsubsystem import LEDSubsystem
+
 from flywheelCommand import ControlFlywheel
 from indexerCommand import ControlIndexer
 from timedIndexer import TimedIndexer
@@ -19,6 +22,9 @@ class MyRobot(TimedCommandRobot):
        self._driver_controller = CommandXboxController(0)
        self._shooter: Shooter = Shooter()
        self._shooter.setDefaultCommand(ControlFlywheel(self._shooter,  0))
+
+       self._intake: Intake = Intake()
+       self._led:   LEDSubsystem = LEDSubsystem()
        
 
     #    SignalLogger.start()                 # Enable CTRE Motor Hoot logging.
