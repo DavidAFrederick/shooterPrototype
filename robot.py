@@ -2,6 +2,7 @@ import wpilib
 from commands2 import TimedCommandRobot
 from shooter import Shooter
 from intake import Intake
+from ledsubsystem import LEDSubsystem
 
 from flywheelCommand import ControlFlywheel
 from indexerCommand import ControlIndexer
@@ -28,6 +29,7 @@ class MyRobot(TimedCommandRobot):
 
        self._intake: Intake = Intake()
        self._intake.setDefaultCommand(ControlIntake(self._intake, 0))
+       self._led:   LEDSubsystem = LEDSubsystem()
        
 
     #    SignalLogger.start()                 # Enable CTRE Motor Hoot logging.
