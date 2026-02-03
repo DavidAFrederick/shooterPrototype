@@ -29,6 +29,7 @@ class Intake(Subsystem):
         super().__init__()
 
         # Test comment
+        # Test comment
 
         # SignalLogger.start()                 # Enable CTRE Motor Hoot logging.
 
