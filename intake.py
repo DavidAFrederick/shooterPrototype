@@ -28,6 +28,9 @@ class Intake(Subsystem):
     def __init__(self):
         super().__init__()
 
+        # Test comment
+        # Test comment
+
         # SignalLogger.start()                 # Enable CTRE Motor Hoot logging.
 
         self._shooter_indexer: TalonFX = self.__configure_indexer()
