@@ -70,7 +70,7 @@ class Shooter(Subsystem):
         if (self.flywheel_enabled):                                       # Global control of Flywheel
             self.counter = self.counter  + 1
 
-            self.flywheel_duty_cycle_out.output = self.motor_speed_global           # Speed set by global variable
+            self.flywheel_duty_cycle_out.output = 0 - self.motor_speed_global           # Speed set by global variable
             self._shooter_flywheel.set_control(self.flywheel_duty_cycle_out)
 
         else:
